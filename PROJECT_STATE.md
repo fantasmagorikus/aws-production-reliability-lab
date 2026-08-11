@@ -11,17 +11,21 @@ Milestone: M0 - Preflight and guardrails
 - CLI profile "lab" via SSO. No static credentials on disk.
 - [default] profile removed from ~/.aws/config, so any command without
   --profile fails loudly instead of silently using root (validated)
+- Monthly cost budget configured in AWS Budgets with alerts at
+  50% actual, 80% actual, 100% forecasted
+- ADR-0001 records the us-east-1 decision; docs/cost-controls.md records
+  the tagging convention and destroy policy
 
 ## Accepted risk, with deadline
-- No MFA on the root user or the admin user. Deadline ~2026-08-24
-  (phone hardware failure, replacement pending).
+- No MFA on the root user or the admin user. Deadline 2026-08-24.
 - Verify at the start of every session:
   aws iam get-account-summary --profile lab --query 'SummaryMap.AccountMFAEnabled'
+  Expected: 1
 
 ## Next actions
-- Monthly cost budget with alerts at 50/80/100
-- Tagging convention and docs/cost-controls.md
-- M0 acceptance review before starting Phase 1 (network)
+- Reusable evidence capture script under scripts/
+- M0 acceptance review
+- Phase 1: network foundation
 
 ## Cost
-USD 0.00 - no billable resources exist
+No billable resources exist.
