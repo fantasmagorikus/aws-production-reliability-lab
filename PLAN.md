@@ -24,6 +24,9 @@ quietly deferred (`evidence/m0-preflight/00-summary.txt`).
 What comes next, in order:
 
 1. Enable MFA on the root user and the admin user - blocked, deadline 2026-08-24.
+   The admin half has no check behind it yet: the baseline's MFA row reads the root
+   flag only, and the admin is an Identity Center user, so enabling root MFA alone
+   turns the summary all-green while leaving that gap open.
 2. Create the public GitHub remote and push. The repository is local-only today.
 3. Sign off M0, then start M1 and provision the first NAT Gateway, which is the
    first resource in this project that bills by the hour.
@@ -52,17 +55,20 @@ alert is only the second line of defence.
 **Dependency:** none, this is the entry point.
 **Exam domain:** primarily Domain 4 (Security and Compliance), with the evidence
 tooling feeding Domain 1.
-**Gate:** M1 does not start until 0.1 and 0.2 below are closed, because the first
-NAT Gateway is also the first hourly charge.
+**Gate:** M1 does not start until 0.1a, 0.1b and 0.2 below are closed, because the
+first NAT Gateway is also the first hourly charge. Note that 0.1b cannot currently
+be verified at all - see 0.18 - so "all checks pass" is not yet the same as "the
+account is protected".
 
 | # | Task | Status | Acceptance criteria |
 |---|---|---|---|
-| 0.1 | MFA on the root user and the admin user | `[!]` | `SummaryMap.AccountMFAEnabled` returns `1`; baseline summary shows 8 PASS, 0 FAIL. Deadline 2026-08-24 |
+| 0.1a | MFA on the root user | `[!]` | `SummaryMap.AccountMFAEnabled` returns `1`, flipping the summary's only FAIL row to PASS. Deadline 2026-08-24 |
+| 0.1b | MFA on the admin (Identity Center) user | `[!]` | No proof exists for this yet, and that is the finding: `AccountMFAEnabled` is the root flag only, and the admin is an Identity Center user rather than an IAM user (`IAM users: 0`), so no IAM MFA device for it can ever appear in `get-account-summary`. Needs 0.18 first. Deadline 2026-08-24 |
 | 0.2 | Create the public GitHub remote and push | `[ ]` | `git remote -v` resolves; history pushed; no secret or personal figure present in any reachable commit |
 | 0.3 | M0 acceptance review | `[~]` | This PLAN.md and `docs/skills-demonstrated.md` exist and every claim traces to a file; 0.1 and 0.2 closed |
 | 0.4 | Scaffold repository, guardrails and initial state | `[x]` | Directory skeleton, secret-denying `.gitignore`, README, `PROJECT_STATE.md` committed (`fadcb0d`) |
 | 0.5 | Confirm account baseline: root holds no access keys | `[x]` | `AccountAccessKeysPresent` = 0, recorded in `evidence/m0-preflight/02-account-security.txt` |
-| 0.6 | IAM Identity Center organization instance, us-east-1 primary | `[x]` | Instance `ACTIVE`; Single-Region confirmed by zero customer managed KMS keys |
+| 0.6 | IAM Identity Center instance created and active | `[x]` | Instance reports `ACTIVE` in `evidence/m0-preflight/02-account-security.txt`. The organization-instance type and the us-east-1 primary Region are recorded in prose only (`PROJECT_STATE.md`, `docs/adr/0001-aws-region.md`) and are not proven by any captured output - see 0.17 |
 | 0.7 | Federated admin identity via permission set, 8h session | `[x]` | Caller identity resolves to an `assumed-role` ARN, not an IAM user; 0 IAM users on the account |
 | 0.8 | CLI profile `lab` over SSO, no static credentials on disk | `[x]` | `evidence/m0-preflight/01-identity.txt` shows the assumed-role ARN |
 | 0.9 | Remove the `[default]` profile so unqualified commands fail closed | `[x]` | Negative control recorded: the same call without `--profile` returns `NoCredentials` |
@@ -72,6 +78,9 @@ NAT Gateway is also the first hourly charge.
 | 0.13 | Keep personal financial figures out of committed content | `[x]` | Redacted in `e4dd52c` while the repository was still local-only; no monetary ceiling in any reachable commit |
 | 0.14 | Reusable, masked evidence capture script | `[x]` | `scripts/capture-evidence.sh` writes five files per milestone, masks 12-digit account IDs and directory IDs, emits a PASS/FAIL table |
 | 0.15 | Zero-billable-resource baseline before provisioning | `[x]` | Seven resource classes all report zero (`evidence/m0-preflight/04-resource-inventory.txt`) |
+| 0.16 | Confirm zero customer managed KMS keys | `[x]` | `kms list-keys` returns `[]` (`evidence/m0-preflight/02-account-security.txt`), so no per-key monthly charge exists. This is a key-inventory fact and its cost consequence; it is not on its own proof of the Identity Center replication configuration |
+| 0.17 | Close the Identity Center evidence gap | `[ ]` | Widen the `sso-admin list-instances` projection to include `OwnerAccountId` and `IdentityStoreId`, and capture the primary Region explicitly, so 0.6's instance type and Region stop being prose-only. The instance ARN carries no Region, so it cannot supply this |
+| 0.18 | Give admin MFA a defined check | `[ ]` | Baseline queries Identity Center MFA state, so 0.1b has a proof condition instead of none. Until then the summary can read 8 PASS with the admin still unprotected |
 
 ## M1 - Network foundation
 
