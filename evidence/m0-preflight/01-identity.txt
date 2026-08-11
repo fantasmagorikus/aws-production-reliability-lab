@@ -1,0 +1,12 @@
+# Identity
+Captured: 2026-08-11T09:44:10Z
+
+## Caller identity
+{
+    "UserId": "AROA25KNMBP7JHBKAWMOL:fantasmagorikus",
+    "Account": "XXXXXXXXXXXX",
+    "Arn": "arn:aws:sts::XXXXXXXXXXXX:assumed-role/AWSReservedSSO_AdministratorAccess_32f0f77eac3d108f/fantasmagorikus"
+}
+
+## Negative control: same call without --profile (must fail)
+aws: [ERROR]: An error occurred (NoCredentials): Unable to locate credentials. You can configure credentials by running "aws login".

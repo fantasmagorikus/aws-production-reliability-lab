@@ -1,0 +1,14 @@
+# m0-preflight summary
+
+CHECK                      EXPECTED   ACTUAL     STATUS
+-------------------------- --------   --------   ------
+root MFA enabled           1          0          FAIL
+root access keys           0          0          PASS
+customer managed KMS       0          0          PASS
+nat gateways               0          0          PASS
+load balancers             0          0          PASS
+rds instances              0          0          PASS
+elastic ips                0          0          PASS
+ecs clusters               0          0          PASS
+
+Generated 2026-08-11T09:44:10Z

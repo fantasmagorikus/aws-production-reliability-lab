@@ -1,0 +1,18 @@
+# Account security
+Captured: 2026-08-11T09:44:10Z
+
+Root MFA enabled (1=yes, 0=no): 0
+Root access keys present:       0
+IAM users:                      0
+IAM roles:                      6
+
+## Identity Center
+[
+    {
+        "Arn": "arn:aws:sso:::instance/ssoins-72233bbf1d291dca",
+        "Status": "ACTIVE"
+    }
+]
+
+## Customer managed KMS keys (expected: none)
+[]

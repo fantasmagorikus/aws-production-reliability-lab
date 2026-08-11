@@ -1,0 +1,30 @@
+# Cost controls
+Captured: 2026-08-11T09:44:10Z
+
+## Budgets (amount intentionally not recorded)
+[
+    {
+        "Name": "lab-monthly-ceiling",
+        "Period": "MONTHLY",
+        "Type": "COST"
+    }
+]
+
+## Alert thresholds
+[
+    {
+        "Type": "ACTUAL",
+        "Op": "GREATER_THAN",
+        "Threshold": 50.0
+    },
+    {
+        "Type": "ACTUAL",
+        "Op": "GREATER_THAN",
+        "Threshold": 80.0
+    },
+    {
+        "Type": "FORECASTED",
+        "Op": "GREATER_THAN",
+        "Threshold": 100.0
+    }
+]

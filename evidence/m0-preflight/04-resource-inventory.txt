@@ -1,0 +1,10 @@
+# Billable resource inventory
+Captured: 2026-08-11T09:44:10Z
+
+nat_gateways: 0
+load_balancers: 0
+rds_instances: 0
+elastic_ips: 0
+ecs_clusters: 0
+ecr_repositories: 0
+non_default_vpcs: 0
