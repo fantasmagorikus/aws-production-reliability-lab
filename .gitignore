@@ -8,6 +8,9 @@
 *.tfvars
 !*.tfvars.example
 
+# local assistant config
+CLAUDE.md
+
 # terraform - state is sensitive
 .terraform/
 *.tfstate

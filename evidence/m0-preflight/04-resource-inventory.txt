@@ -1,7 +1,9 @@
 # Billable resource inventory
-Captured: 2026-08-11T09:44:10Z
+Captured: 2026-08-18T01:17:39Z
 
-nat_gateways: 0
+nat_gateways: 
+aws: [ERROR]: An error occurred (InternalError) when calling the DescribeNatGateways operation (reached max retries: 2): An internal error has occurred
+ERROR: query failed
 load_balancers: 0
 rds_instances: 0
 elastic_ips: 0
