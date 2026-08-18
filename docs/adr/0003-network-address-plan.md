@@ -1,7 +1,7 @@
 # ADR-0003: Network address plan
 
 - Date: 2026-08-18
-- Status: proposed
+- Status: accepted
 
 ## Context
 
@@ -79,7 +79,7 @@ peers, and so the tier is readable from the address alone.
 # ADR-0003 (PT-BR): Plano de enderecamento de rede
 
 - Data: 2026-08-18
-- Status: proposto
+- Status: aceito
 
 ## Contexto
 

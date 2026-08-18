@@ -1,7 +1,7 @@
 # ADR-0004: Delete the default VPC
 
 - Date: 2026-08-18
-- Status: proposed
+- Status: accepted
 
 ## Context
 
@@ -48,7 +48,7 @@ accumulate, and because it undermines the discipline this lab is built to practi
 # ADR-0004 (PT-BR): Deletar a VPC padrao
 
 - Data: 2026-08-18
-- Status: proposto
+- Status: aceito
 
 ## Contexto
 
