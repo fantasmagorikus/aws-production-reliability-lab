@@ -1,0 +1,76 @@
+# Route failure drill, raw probe output
+Instance i-02712672027b46f32 in subnet lab-app-a
+Probe: curl every 2 seconds, timeout 3 seconds, target https://checkip.amazonaws.com
+Route removed 14:25:26Z, restored 14:26:17Z
+
+14:25:11 http=200 tempo=0.016855
+14:25:13 http=200 tempo=0.014387
+14:25:15 http=200 tempo=0.014867
+14:25:17 http=200 tempo=0.015334
+14:25:19 http=200 tempo=0.014363
+14:25:21 http=200 tempo=0.014798
+14:25:23 http=200 tempo=0.016786
+14:25:25 http=200 tempo=0.014998
+14:25:27 http=200 tempo=0.015114
+14:25:29 http=200 tempo=0.014171
+14:25:31 http=200 tempo=0.014617
+14:25:33 http=000 tempo=3.001184
+FALHA
+14:25:38 http=000 tempo=3.001020
+FALHA
+14:25:43 http=000 tempo=3.000780
+FALHA
+14:25:48 http=000 tempo=3.001583
+FALHA
+14:25:53 http=000 tempo=3.001039
+FALHA
+14:25:58 http=000 tempo=3.001173
+FALHA
+14:26:03 http=000 tempo=3.001337
+FALHA
+14:26:08 http=000 tempo=3.000786
+FALHA
+14:26:13 http=000 tempo=3.001151
+FALHA
+14:26:18 http=000 tempo=3.001446
+FALHA
+14:26:23 http=200 tempo=1.419846
+14:26:27 http=200 tempo=0.018475
+14:26:29 http=200 tempo=0.014240
+14:26:31 http=200 tempo=0.017036
+14:26:33 http=200 tempo=0.015216
+14:26:35 http=200 tempo=0.015086
+14:26:37 http=200 tempo=0.014655
+14:26:39 http=200 tempo=0.016976
+14:26:41 http=200 tempo=0.015488
+14:26:43 http=200 tempo=0.016805
+14:26:45 http=200 tempo=0.014515
+14:26:47 http=200 tempo=0.014330
+14:26:49 http=200 tempo=0.015135
+14:26:51 http=200 tempo=0.016387
+14:26:53 http=200 tempo=0.014852
+14:26:55 http=200 tempo=0.014318
+14:26:57 http=200 tempo=0.016726
+14:26:59 http=200 tempo=0.014400
+14:27:01 http=200 tempo=0.017708
+14:27:03 http=200 tempo=0.015983
+14:27:05 http=200 tempo=0.015042
+14:27:07 http=200 tempo=0.014564
+14:27:09 http=200 tempo=0.016276
+14:27:11 http=200 tempo=0.014696
+14:27:13 http=200 tempo=0.014898
+14:27:15 http=200 tempo=0.014375
+14:27:17 http=200 tempo=0.014458
+14:27:19 http=200 tempo=0.014784
+14:27:21 http=200 tempo=0.014486
+14:27:23 http=200 tempo=0.014766
+14:27:25 http=200 tempo=0.015717
+14:27:27 http=200 tempo=0.018943
+14:27:29 http=200 tempo=0.015445
+14:27:31 http=200 tempo=0.014641
+14:27:34 http=200 tempo=0.015005
+14:27:36 http=200 tempo=0.014865
+14:27:38 http=200 tempo=0.016364
+14:27:40 http=200 tempo=0.015398
+14:27:42 http=200 tempo=0.015521
+

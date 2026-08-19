@@ -1,0 +1,198 @@
+# M1 network evidence
+Captured: 2026-08-19T14:31:23Z
+Region: us-east-1
+
+## VPC and subnets
+[
+    {
+        "Cidr": "10.20.0.0/16",
+        "State": "available",
+        "Default": false
+    }
+]
+[
+    {
+        "Name": "lab-public-a",
+        "Cidr": "10.20.0.0/24",
+        "AZ": "us-east-1a",
+        "AutoPublicIp": false,
+        "Free": 250
+    },
+    {
+        "Name": "lab-public-b",
+        "Cidr": "10.20.1.0/24",
+        "AZ": "us-east-1b",
+        "AutoPublicIp": false,
+        "Free": 251
+    },
+    {
+        "Name": "lab-app-a",
+        "Cidr": "10.20.10.0/24",
+        "AZ": "us-east-1a",
+        "AutoPublicIp": false,
+        "Free": 250
+    },
+    {
+        "Name": "lab-app-b",
+        "Cidr": "10.20.11.0/24",
+        "AZ": "us-east-1b",
+        "AutoPublicIp": false,
+        "Free": 251
+    },
+    {
+        "Name": "lab-db-a",
+        "Cidr": "10.20.20.0/24",
+        "AZ": "us-east-1a",
+        "AutoPublicIp": false,
+        "Free": 250
+    },
+    {
+        "Name": "lab-db-b",
+        "Cidr": "10.20.21.0/24",
+        "AZ": "us-east-1b",
+        "AutoPublicIp": false,
+        "Free": 251
+    }
+]
+
+## Route tables, one per tier
+[
+    {
+        "Name": null,
+        "Subnets": 1,
+        "Routes": [
+            {
+                "Dest": "10.20.0.0/16",
+                "State": "active"
+            }
+        ]
+    },
+    {
+        "Name": "lab-rtb-public",
+        "Subnets": 2,
+        "Routes": [
+            {
+                "Dest": "10.20.0.0/16",
+                "State": "active"
+            },
+            {
+                "Dest": "0.0.0.0/0",
+                "State": "active"
+            }
+        ]
+    },
+    {
+        "Name": "lab-rtb-db",
+        "Subnets": 2,
+        "Routes": [
+            {
+                "Dest": "10.20.0.0/16",
+                "State": "active"
+            }
+        ]
+    },
+    {
+        "Name": "lab-rtb-app-a",
+        "Subnets": 1,
+        "Routes": [
+            {
+                "Dest": "10.20.0.0/16",
+                "State": "active"
+            },
+            {
+                "Dest": "0.0.0.0/0",
+                "State": "active"
+            }
+        ]
+    },
+    {
+        "Name": "lab-rtb-app-b",
+        "Subnets": 1,
+        "Routes": [
+            {
+                "Dest": "10.20.0.0/16",
+                "State": "active"
+            },
+            {
+                "Dest": "0.0.0.0/0",
+                "State": "active"
+            }
+        ]
+    }
+]
+
+## Security group chain, group references not CIDR ranges
+[
+    {
+        "Name": "lab-sg-alb",
+        "Id": "sg-0d1083cb8d11b2ae3",
+        "Ingress": [
+            {
+                "Port": 443,
+                "FromCidr": "0.0.0.0/0",
+                "FromGroup": null
+            }
+        ]
+    },
+    {
+        "Name": "lab-sg-app",
+        "Id": "sg-0659a336f5cf276b3",
+        "Ingress": [
+            {
+                "Port": 8080,
+                "FromCidr": null,
+                "FromGroup": "sg-0d1083cb8d11b2ae3"
+            }
+        ]
+    },
+    {
+        "Name": "lab-sg-db",
+        "Id": "sg-05cb956d8abc31b88",
+        "Ingress": [
+            {
+                "Port": 5432,
+                "FromCidr": null,
+                "FromGroup": "sg-0659a336f5cf276b3"
+            }
+        ]
+    }
+]
+
+## Positive test: instance in the application tier reaches the internet
+Instance i-02712672027b46f32 in lab-app-a, private address 10.20.10.40, no public address.
+NAT gateway public address: 54.167.150.42
+Address observed by an external endpoint, via SSM RunShellScript: 54.167.150.42
+Both values match, which proves route, translation and return path in one measurement.
+
+## Negative test: instance in the database tier is isolated
+Instance i-0ca9b7191046d977a in lab-db-a, private address 10.20.20.227, running and healthy.
+Same AMI, same instance type, same IAM instance profile as the positive case.
+The only variable that differs is the subnet, and therefore the route table.
+SSM agent registration requires outbound reachability. Instances currently registered:
+[
+    {
+        "Id": "i-02712672027b46f32",
+        "Ping": "Online"
+    }
+]
+The database tier instance is absent from that list. Isolation confirmed.
+
+## Route failure drill
+Default route removed from lab-rtb-app-a at 14:25:26Z and restored at 14:26:17Z.
+Probe interval 2 seconds, client timeout 3 seconds, target https://checkip.amazonaws.com
+
+  14:25:31  http=200  last healthy response, 5s after the route was removed
+  14:25:33  http=000  first failure
+  14:26:18  http=000  last failure
+  14:26:23  http=200  first healthy response, 6s after the route was restored
+
+Observed unavailability: 50 seconds. Failed requests: 10.
+
+Three findings:
+1. Three requests still succeeded after the route was deleted, and recovery lagged the
+   restore by six seconds. Control plane acknowledgement is not data plane convergence.
+2. Every failure lasted 3.001 seconds, exactly the configured client timeout. Packets were
+   discarded silently rather than refused, which is the signature of a missing route as
+   opposed to a closed port.
+3. The first response after recovery took 1.419s against a steady state of 0.015s.
+   Unverified hypothesis: DNS resolution and TLS handshake repeated after cache expiry.
