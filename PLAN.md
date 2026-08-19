@@ -212,3 +212,50 @@ that change, and older SOA-C02 study material does not cover them.
 Weights sum to 100%. Domain 4 is the only one with committed evidence today; the
 remaining four are planned and currently unproven, which is exactly what
 `docs/skills-demonstrated.md` records.
+
+- **M8 — EKS comparison module (optional).** Runs the same reference workload on
+  Amazon EKS and records the measured difference against ECS Fargate: control plane
+  cost, cluster lifecycle time, IAM model (task roles against IRSA), ingress path and
+  operational surface. The point is a defensible answer to "when is each one correct",
+  not a second deployment. Requires M2 through M5 finished on ECS first, otherwise
+  there is no baseline to compare against. Optional and unscoped.
+
+- **M8 — modulo de comparacao com EKS (opcional).** Executa a mesma aplicacao de
+  referencia no Amazon EKS e registra a diferenca medida contra o ECS Fargate: custo
+  de control plane, tempo de ciclo de vida do cluster, modelo de IAM (task roles
+  contra IRSA), caminho de ingress e superficie operacional. O objetivo e uma resposta
+  defensavel para "quando cada um e a escolha certa", nao um segundo deploy. Exige M2
+  ate M5 concluidos em ECS antes, caso contrario nao existe linha de base para
+  comparar. Opcional e sem escopo definido.
+
+## Candidate modules, not committed
+
+- **M7 — incident triage assistant (Amazon Bedrock).** Reads CloudWatch alarms, ECS
+  service events and PostgreSQL statistics, then drafts an incident timeline with
+  hypotheses ranked by evidence and links the matching runbook. Read-only credentials,
+  no remediation actions. Depends on M2 through M4 producing real telemetry first.
+  Scope deliberately undefined: parked as an idea, not adopted as a plan.
+
+- **M8 — EKS comparison module (optional).** Runs the same reference workload on
+  Amazon EKS and records the measured difference against ECS Fargate: control plane
+  cost, cluster lifecycle time, IAM model (task roles against IRSA), ingress path and
+  operational surface. The point is a defensible answer to "when is each one correct",
+  not a second deployment. Requires M2 through M5 finished on ECS first, otherwise
+  there is no baseline to compare against. Optional and unscoped.
+
+## Modulos candidatos, sem compromisso
+
+- **M7 — assistente de triagem de incidentes (Amazon Bedrock).** Le alarmes do
+  CloudWatch, eventos de servico do ECS e estatisticas do PostgreSQL, e rascunha uma
+  timeline de incidente com hipoteses ordenadas por evidencia, ligando ao runbook
+  correspondente. Credenciais somente leitura, sem acoes de remediacao. Depende de M2
+  ate M4 produzirem telemetria real antes. Escopo deliberadamente indefinido:
+  estacionado como ideia, nao adotado como plano.
+
+- **M8 — modulo de comparacao com EKS (opcional).** Executa a mesma aplicacao de
+  referencia no Amazon EKS e registra a diferenca medida contra o ECS Fargate: custo
+  de control plane, tempo de ciclo de vida do cluster, modelo de IAM (task roles
+  contra IRSA), caminho de ingress e superficie operacional. O objetivo e uma resposta
+  defensavel para "quando cada um e a escolha certa", nao um segundo deploy. Exige M2
+  ate M5 concluidos em ECS antes, caso contrario nao existe linha de base para
+  comparar. Opcional e sem escopo definido.

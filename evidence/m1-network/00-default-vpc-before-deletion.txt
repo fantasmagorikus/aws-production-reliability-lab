@@ -1,0 +1,57 @@
+# Default VPC state before deletion
+Captured: 2026-08-18T04:33:46Z
+Region: us-east-1
+
+## VPC
+[
+    {
+        "Id": "vpc-071afca4e8ab76120",
+        "Cidr": "172.31.0.0/16",
+        "Default": true,
+        "State": "available"
+    }
+]
+
+## Subnets
+[
+    {
+        "Id": "subnet-092626662f38214ef",
+        "Cidr": "172.31.0.0/20",
+        "AZ": "us-east-1a",
+        "PublicIP": true
+    },
+    {
+        "Id": "subnet-0ee473b7d5613b45d",
+        "Cidr": "172.31.80.0/20",
+        "AZ": "us-east-1b",
+        "PublicIP": true
+    },
+    {
+        "Id": "subnet-0eead12e527c05de4",
+        "Cidr": "172.31.16.0/20",
+        "AZ": "us-east-1c",
+        "PublicIP": true
+    },
+    {
+        "Id": "subnet-0921862c30fc8f2a3",
+        "Cidr": "172.31.32.0/20",
+        "AZ": "us-east-1d",
+        "PublicIP": true
+    },
+    {
+        "Id": "subnet-0351f484f80e09367",
+        "Cidr": "172.31.48.0/20",
+        "AZ": "us-east-1e",
+        "PublicIP": true
+    },
+    {
+        "Id": "subnet-0ea889d07adcc2b48",
+        "Cidr": "172.31.64.0/20",
+        "AZ": "us-east-1f",
+        "PublicIP": true
+    }
+]
+
+## Emptiness check, the precondition for deletion
+ec2 instances:     0
+network interfaces: 0
